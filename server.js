@@ -37,7 +37,7 @@ Hazlo claro, preciso y completo.
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openrouter/cinematika-7b",  // Confirmado como disponible
+        model: "openrouter/mistral-7b",  // Nuevo modelo compatible
         messages: [
           { role: "user", content: prompt }
         ]
