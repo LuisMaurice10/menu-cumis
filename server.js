@@ -8,6 +8,23 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
+const API_KEY = process.env.OPENROUTER_API_KEY;
+
+app.get("/available-models", async (req, res) => {
+  try {
+    const response = await fetch("https://openrouter.ai/api/v1/models", {
+      headers: { Authorization: `Bearer ${API_KEY}` }
+    });
+    const data = await response.json();
+    const models = data.data?.map(m => m.id) || [];
+    console.log("Modelos disponibles:", models);
+    res.json({ models });
+  } catch (err) {
+    console.error("Error al obtener modelos:", err.message);
+    res.status(500).json({ error: "No se pudieron obtener modelos" });
+  }
+});
+
 app.post("/generate-menu", async (req, res) => {
   const { participants, days, climate } = req.body;
   const prompt = `
@@ -27,17 +44,17 @@ Lista de compras:
 Hazlo claro, preciso y completo.
 `;
 
-  console.log("CLAVE API desde Render:", process.env.OPENROUTER_API_KEY); // Verificación clave API
+  console.log("CLAVE API desde Render:", API_KEY);
 
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Authorization": `Bearer ${API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "mistral-7b",  // Modelo sin prefijo
+        model: "openrouter/auto",  // Usa el mejor modelo disponible
         messages: [
           { role: "user", content: prompt }
         ]
