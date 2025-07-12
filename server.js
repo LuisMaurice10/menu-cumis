@@ -27,6 +27,8 @@ Lista de compras:
 Hazlo claro, preciso y completo.
 `;
 
+  console.log("CLAVE API desde Render:", process.env.OPENROUTER_API_KEY); // Verificación clave API
+
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -35,7 +37,7 @@ Hazlo claro, preciso y completo.
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openrouter/auto",
+        model: "openrouter/cinematika-7b",  // Confirmado como disponible
         messages: [
           { role: "user", content: prompt }
         ]
@@ -47,6 +49,7 @@ Hazlo claro, preciso y completo.
     const content = data.choices?.[0]?.message?.content || "Sin respuesta válida de la IA.";
     res.json({ result: content, raw: data });
   } catch (err) {
+    console.error("Error al conectar con OpenRouter:", err);
     res.json({ error: "Error al generar menú: " + err.message });
   }
 });
