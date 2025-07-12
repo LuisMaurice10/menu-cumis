@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generador de Menús - CUMIS</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    input, select, button { margin: 0.5rem 0; padding: 0.5rem; width: 100%; }
+    textarea { width: 100%; height: 300px; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Generador de Menús para Jornadas CUMIS</h1>
+  <label>Número de participantes:</label>
+  <input type="number" id="participants" min="1" required />
+
+  <label>Número de días:</label>
+  <input type="number" id="days" min="1" required />
+
+  <label>Tipo de jornada:</label>
+  <select id="climate">
+    <option value="calor">Clima caluroso</option>
+    <option value="frio">Clima frío</option>
+    <option value="estandar">Clima estándar</option>
+  </select>
+
+  <button onclick="generateMenu()">Generar menú</button>
+
+  <textarea id="result" readonly></textarea>
+
+  <script>
+    async function generateMenu() {
+      const participants = document.getElementById("participants").value;
+      const days = document.getElementById("days").value;
+      const climate = document.getElementById("climate").value;
+
+      const res = await fetch("/generate-menu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ participants, days, climate }),
+      });
+
+      const data = await res.json();
+      document.getElementById("result").value = data.result || data.error || "Ocurrió un error.";
+    }
+  </script>
+</body>
+</html>
