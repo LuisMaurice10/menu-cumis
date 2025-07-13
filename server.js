@@ -28,18 +28,13 @@ app.get("/available-models", async (req, res) => {
 app.post("/generate-menu", async (req, res) => {
   const { participants, days, climate } = req.body;
   const prompt = `
-Eres un planificador nutricional para una fundación médica sin fines de lucro que realiza jornadas sociales. Debes generar un menú económico, sencillo, variado y sin alimentos costosos ni extravagantes. Usa ingredientes básicos y de fácil donación (como arroz, pasta, granos, vegetales, frutas locales, proteínas accesibles). Agrega una merienda diaria para cada persona.
-
-Genera el menú para ${participants} personas durante ${days} días en una jornada con clima ${climate}. No repitas comidas y adáptalas al clima. Incluye desayuno, merienda, almuerzo y cena por día.
-
-Al final, proporciona una lista de compras con cantidades detalladas en kilogramos, litros, gramos o unidades. Incluye también los condimentos y líquidos necesarios (agua, aceite, aliños).
+Eres un planificador nutricional. Crea un menú variado para ${participants} personas, durante ${days} días, en una jornada con clima ${climate}. Evita repetir comidas. Incluye desayuno, almuerzo y cena por día, adecuados al clima. Al final, proporciona una lista de compras con cantidades detalladas en kg, litros, gramos y unidades, incluyendo condimentos.
 
 Ejemplo:
 Día 1:
-- Desayuno: Arepas con caraotas
-- Merienda: Cambur
-- Almuerzo: Arroz con pollo y ensalada de repollo
-- Cena: Sopa de vegetales y pan
+- Desayuno: ...
+- Almuerzo: ...
+- Cena: ...
 
 Lista de compras:
 - Arroz: 5kg
@@ -49,6 +44,8 @@ Lista de compras:
 Hazlo claro, preciso y completo.
 `;
 
+  console.log("CLAVE API desde Render:", API_KEY);
+
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -57,8 +54,7 @@ Hazlo claro, preciso y completo.
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openrouter/auto",
-        max_tokens: 1200,
+        model: "openrouter/auto",  // Usa el mejor modelo disponible
         messages: [
           { role: "user", content: prompt }
         ]
