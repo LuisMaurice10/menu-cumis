@@ -28,7 +28,7 @@ app.get("/available-models", async (req, res) => {
 app.post("/generate-menu", async (req, res) => {
   const { participants, days, climate } = req.body;
   const prompt = `
-Eres un planificador nutricional. Crea un menú variado para ${participants} personas, durante ${days} días, en una jornada con clima ${climate}. Evita repetir comidas. Incluye desayuno, almuerzo y cena por día, adecuados al clima. Al final, proporciona una lista de compras con cantidades detalladas en kg, litros, gramos y unidades, incluyendo condimentos.
+Eres un planificador nutricional. Crea un menú variado para ${participants} personas, durante ${days} días, en una jornada con clima ${climate}. Evita repetir comidas. Incluye desayuno, almuerzo, cena y merienda por día, adecuados al clima (alimentos no tan caros). Al final, proporciona una lista de compras con cantidades detalladas en kg, litros, gramos y unidades, incluyendo condimentos.
 
 Ejemplo:
 Día 1:
