@@ -41,7 +41,7 @@ Lista de compras:
 - Sal: 500g
 - ...
 
-Hazlo claro, preciso y completo sin que falte nada de esto.
+Hazlo claro, preciso y completo sin que falte nada de esto (Por favor solo dame lo que te estoy pidiendo, sin preguntar si deseo algo mas ni nada, solo lo que te pido).
 `;
 
   console.log("CLAVE API desde Render:", API_KEY);
